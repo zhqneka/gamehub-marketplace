@@ -3,6 +3,8 @@ import { useNavigate, Routes, Route } from 'react-router-dom'
 import ProductDetails from './components/ProductDetails'
 import './App.css'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
 type Offer = {
   offer_id: number
   price: number
@@ -50,7 +52,7 @@ function App() {
   const [authLoading, setAuthLoading] = useState(true)
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/products')
+    fetch(`${API_BASE_URL}/api/products`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Failed to load products')
@@ -82,7 +84,7 @@ function App() {
 
       try {
         const response = await fetch(
-          'http://localhost:8000/api/auth/me',
+          `${API_BASE_URL}/api/auth/me`,
           {
             headers: {
               Authorization: `Bearer ${savedToken}`,
@@ -186,7 +188,7 @@ function App() {
   const handleLogout = async () => {
     if (token) {
       try {
-        await fetch('http://localhost:8000/api/auth/logout', {
+        await fetch(`${API_BASE_URL}/api/auth/logout`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -553,7 +555,7 @@ function CheckoutPage({
 
     try {
       const response = await fetch(
-        'http://localhost:8000/api/orders',
+        `${API_BASE_URL}/api/orders`,
         {
           method: 'POST',
           headers: {
@@ -804,7 +806,7 @@ function OrderHistoryPage({
     const fetchOrders = async () => {
       try {
         const response = await fetch(
-          'http://localhost:8000/api/orders',
+          `${API_BASE_URL}/api/orders`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -1020,7 +1022,7 @@ function AuthPage({
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/auth/${mode}`,
+        `${API_BASE_URL}/api/auth/${mode}`,
         {
           method: 'POST',
           headers: {

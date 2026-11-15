@@ -2,6 +2,8 @@
 import { useParams, Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
 type Offer = {
   offer_id: number
   price: number
@@ -31,7 +33,7 @@ function ProductDetails({ onAddToCart }: ProductDetailsProps) {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/products/${id}`)
+    fetch(`${API_BASE_URL}/api/products/${id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Product not found')
