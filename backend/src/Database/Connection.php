@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Database;
-
 use PDO;
 use Throwable;
 
@@ -21,6 +19,10 @@ class Connection
 
         $dsn = "pgsql:host={$config['host']};port={$config['port']};dbname={$config['database']}";
 
+        if (!empty($config['sslmode'])) {
+            $dsn .= ";sslmode={$config['sslmode']}";
+        }
+
         return new PDO($dsn, $config['username'], $config['password'], [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -35,7 +37,6 @@ class Connection
             $pdo->query('SELECT 1');
 
             return 'connected';
-
         } catch (Throwable $exception) {
             error_log($exception->getMessage());
 
@@ -43,4 +44,3 @@ class Connection
         }
     }
 }
-
